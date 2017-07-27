@@ -6,6 +6,8 @@ import (
 	"gopkg.in/redis.v5"
 )
 
+// Delivery wraps an RMQ message returned from Redis. All Delivery messages should be acknowledged
+// once by calling either the `Ack()`, `Reject()`, or `Push()` functions.
 type Delivery interface {
 	Payload() string
 	PayloadBytes() []byte

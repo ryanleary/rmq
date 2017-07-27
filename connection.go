@@ -54,10 +54,18 @@ func OpenConnectionWithRedisCmdable(tag string, redisClient redis.Cmdable) *Redi
 }
 
 // OpenConnection opens and returns a new connection
-func OpenConnection(tag, network, address string, db int) *RedisConnection {
+func OpenConnection(tag, address string, db int) *RedisConnection {
 	redisClient := redis.NewClient(&redis.Options{
 		Addr: address,
 		DB:   db,
+	})
+	return OpenConnectionWithRedisCmdable(tag, redisClient)
+}
+
+// OpenClusterConnection opens and returns a new connection to a Redis Cluster
+func OpenClusterConnection(tag string, addresses []string) *RedisConnection {
+	redisClient := redis.NewClusterClient(&redis.ClusterOptions{
+		Addrs: addresses,
 	})
 	return OpenConnectionWithRedisCmdable(tag, redisClient)
 }
